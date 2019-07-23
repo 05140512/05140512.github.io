@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #c{
+            border: 1px solid #ccc;
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <form action="">
+        <span>Item A:</span><input type="text" name="ItemA" id="ItemA"><br><br>
+        <span>Item B:</span><input type="text" name="ItemB" id="ItemB"><br><br>
+        <span>Item C:</span><input type="text" name="ItemC" id="ItemC"><br><br>
+        <span>Item D:</span><input type="text" name="ItemD" id="ItemD"><br><br> 
+        <span>Item E:</span><input type="text" name="ItemE" id="ItemE"><br><br>    
+    </form>
+    <button type="button" onclick="createChart()">Chart</button>
+    <hr />
+    <canvas id="c" width="700" height="400" onmousemove="croDashLines(event)" onmouseout="clearPanel()"></canvas>
+</body>
+    <script>
+        var c = document.querySelector("#c");
+        var ctx = c.getContext("2d");
+
+        // 设置坐标轴起始位置距离画布距离
+        var PADDING = 50;
+
+        // 获得画布宽高
+        var WIDTH = c.width;
+        var HEIGHT = c.height;
+
+        // 设置箭头边宽
+        var arrow_Length = 10;
+
+        // 设置横线间距,及确认线的条数
+        var line_Distance = 50;
+        var lines = Math.floor((HEIGHT - PADDING * 2) / line_Distance);
+        // console.log(lines);
+
+        // 点击创建图表
+        function createChart() {
+            // 绘制坐标轴
+            ctx.beginPath();
+            ctx.moveTo(PADDING, PADDING);
+            ctx.lineTo(PADDING, HEIGHT - PADDING);
+            ctx.lineTo(WIDTH - PADDING, HEIGHT - PADDING);
+            ctx.setLineDash([0]);
+            ctx.stroke();
+
+            // 绘制Y轴箭头
+            ctx.beginPath();
+            ctx.moveTo(PADDING, PADDING);
+            ctx.lineTo(PADDING - arrow_Length / 2, PADDING + arrow_Length / 2 + 5);
+            ctx.lineTo(PADDING + arrow_Length / 2, PADDING + arrow_Length / 2 + 5);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.fill();
+
+            // 绘制图标横线
+            for(let i = 0; i < lines; i++) {
+                ctx.beginPath();
+                ctx.moveTo(PADDING, HEIGHT - PADDING - i * line_Distance);
+                ctx.lineTo(WIDTH - PADDING, HEIGHT - PADDING - i * line_Distance);
+                ctx.stroke();
+            }
+           
+        }
+
+        // 绘制十字虚线
+        // function croDashLines(e) {
+        //     ctx.clearRect(0, 0, WIDTH, HEIGHT);
+        //     // var x = Math.floor(Math.random() * WIDTH);
+        //     // var y = Math.floor(Math.random() * HEIGHT);
+        //     var moveX = e.offsetX;
+        //     var moveY = e.offsetY;
+        //     ctx.beginPath();
+        //     ctx.moveTo(moveX, 0);
+        //     ctx.lineTo(moveX, HEIGHT);
+        //     ctx.setLineDash([3,3]);
+        //     ctx.stroke();
+
+        //     ctx.beginPath();
+        //     ctx.moveTo(0, moveY);
+        //     ctx.lineTo(WIDTH, moveY);
+        //     ctx.setLineDash([3,3]);
+        //     ctx.stroke();
+            
+        // }
+
+        // 当鼠标离开画布清除十字线
+        // function clearPanel() {
+        //     ctx.clearRect(0, 0, WIDTH, HEIGHT);
+        // }
+        
+    </script>
+</html>
